@@ -26,15 +26,55 @@ open class TestMe {
 public struct Money {
   public var amount : Int
   public var currency : String
-  
+    
+// init
+    init(amount: Int, currency: String) {
+        self.amount = amount
+        self.currency = currency
+    }
+
+// takes a currency name as a parameter and returns a new Money that contains the converted amount
   public func convert(_ to: String) -> Money {
+    var newAmount = 0
+    
+    switch (currency, to) {
+    case ("USD", "GBP"):
+        newAmount = self.amount / 2
+    case("USD", "EUR"):
+        newAmount = Int(Double(self.amount) * 1.5)
+    case("USD", "CAN"):
+        newAmount = Int(Double(self.amount) * 1.25)
+    case("GBP", "USD"):
+        newAmount = self.amount * 2
+    case("EUR", "USD"):
+        newAmount = Int(Double(self.amount) / 1.5)
+    case("CAN", "USD"):
+        newAmount = Int(Double(self.amount) / 1.25)
+    default:
+        newAmount = self.amount
+    }
+    
+    return Money(amount: newAmount, currency: to)
+    
   }
-  
+    
+// take a Money as a parameter and returns a new Money that contains the addition or subtraction of the two
   public func add(_ to: Money) -> Money {
+    let converted = self.convert(to.currency)
+    let newAmount = converted.amount + to.amount
+    
+    return Money(amount: newAmount, currency: to.currency)
+    
   }
+    
   public func subtract(_ from: Money) -> Money {
+    let converted = self.convert(from.currency)
+    let newAmount =  from.amount - converted.amount
+    
+    return Money(amount: newAmount, currency: from.currency)
   }
 }
+
 
 ////////////////////////////////////
 // Job
@@ -48,9 +88,11 @@ open class Job {
     case Salary(Int)
   }
   
+
   public init(title : String, type : JobType) {
   }
-  
+
+//  returns the amount of money
   open func calculateIncome(_ hours: Int) -> Int {
   }
   
@@ -58,6 +100,7 @@ open class Job {
   }
 }
 
+/*
 ////////////////////////////////////
 // Person
 //
@@ -104,7 +147,7 @@ open class Family {
   
   open func householdIncome() -> Int {
   }
-}
+}*/
 
 
 
