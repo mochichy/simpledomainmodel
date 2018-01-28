@@ -115,7 +115,7 @@ open class Job {
   }
 }
 
-/*
+
 ////////////////////////////////////
 // Person
 //
@@ -124,29 +124,41 @@ open class Person {
   open var lastName : String = ""
   open var age : Int = 0
 
+ 
+
   fileprivate var _job : Job? = nil
   open var job : Job? {
-    get { }
+    get {return _job}
     set(value) {
+        if self.age >= 16 {
+            _job = value
+        }
     }
   }
   
   fileprivate var _spouse : Person? = nil
   open var spouse : Person? {
-    get { }
+    get {return _spouse}
     set(value) {
+        if self.age >= 18 {
+            _spouse = value
+        }
     }
   }
-  
+    
+   // Create an initializer to take the first three as parameters
   public init(firstName : String, lastName: String, age : Int) {
     self.firstName = firstName
     self.lastName = lastName
     self.age = age
   }
   
+    // [Person: firstName: Ted lastName: Neward age: 45 job: Salary(1000) spouse: Charlotte]
   open func toString() -> String {
+    return "[Person: firstName:\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(_job) spouse:\(_spouse)]"
   }
 }
+
 
 ////////////////////////////////////
 // Family
@@ -155,14 +167,38 @@ open class Family {
   fileprivate var members : [Person] = []
   
   public init(spouse1: Person, spouse2: Person) {
+    if spouse1.spouse == nil && spouse2.spouse == nil {
+        spouse1.spouse = spouse2
+        spouse2.spouse = spouse1
+        self.members.append(spouse2)
+        self.members.append(spouse1)
+    }
   }
   
   open func haveChild(_ child: Person) -> Bool {
+    if members[0].age >= 21 || members[1].age >= 21 {
+        members.append(child)
+        return true
+    }
+    return false
   }
   
   open func householdIncome() -> Int {
+    var total = 0
+    for member in members {
+        if member.job != nil {
+            switch member.job!.type {
+            case .Salary(let val):
+                total = total + val
+            case .Hourly(let val):
+                total = total + Int(val * Double(2000))
+            }
+        }
+    }
+    return total
   }
-}*/
+
+}
 
 
 

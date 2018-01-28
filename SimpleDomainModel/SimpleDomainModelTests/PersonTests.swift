@@ -10,7 +10,7 @@ import XCTest
 
 class PersonTests: XCTestCase {
 
-  /*func testPerson() {
+  func testPerson() {
     let ted = Person(firstName: "Ted", lastName: "Neward", age: 45)
     XCTAssert(ted.toString() == "[Person: firstName:Ted lastName:Neward age:45 job:nil spouse:nil]")
   }
@@ -68,6 +68,6 @@ class FamilyTests : XCTestCase {
     
     let familyIncome = family.householdIncome()
     XCTAssert(familyIncome == 12000)
-  }*/
-  
+  }
+ 
 }
